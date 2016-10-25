@@ -8,7 +8,32 @@
 
 import Foundation
 
-print("Hello, World!")
+do {
+    let str = try String(contentsOfFile: "Foo.bar",
+                           encoding: String.Encoding.utf8)
+}
+catch let error as NSError {
+    print(error.localizedDescription)
+}
 
+enum AwfulError: Error {
+    case Bad
+    case Worse
+    case Terrible
+}
 
+func doDangerousStuff() throws {
+    throw AwfulError.Worse
+}
 
+do {
+    try doDangerousStuff()
+}
+catch AwfulError.Bad {
+    // Deal with badness.
+    print("Bad")
+}
+catch  {
+    // Unexpected error!
+    print("Other")
+}
